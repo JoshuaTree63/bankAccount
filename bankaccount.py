@@ -114,22 +114,41 @@ class BankAccount:
     def get_current_balance(self) -> tuple[float,float]:
         return self._nis_balance, self._usd_balance
 
-    def get_transaction_by_date(self, date: datetime.date) -> list[Transaction]:
+    def get_transactions_per_date(self, date: datetime.date) -> list[Transaction]:
         return self._transaction.get(date,[])
 
 
 if __name__ == '__main__':
-
+    # create bank account
     account1 = BankAccount('Discount', 'Kiryat Hasharon', 12345,
                            set([Person('123456789', 'Valeria', 'Netanya', '054-444-4444')]),
                            usd_allowed=True, credit_limit=10_000)
-
     print(f"Current balance for {account1}: {account1.get_current_balance()}")
 
     print("Trying to withdraw 10500 shekels passing the limit - should fail!")
     result = account1.withdraw(10500)
     print(f"Result: {result}")
 
+    print("Trying to withdraw 9500 shekels in the range of limit - should succeed!")
+    result = account1.withdraw(9500)
+    print(f"Result: {result}")
+
+    print(f"Current balance: {account1.get_current_balance()}")
+
+    print("Trying to convert 1000 shekels to USD - outside the limit, should fail")
+    result = account1.convert_to_usd(1000, 3.5)
+    print(f"Result: {result}")
+
+    print("Deposit 20_000 to account - should succeed")
+    result = account1.deposit(20000)
+    print(f"Result: {result}")
+
+    print("Deposit $5_000 to account - should succeed")
+    result = account1.deposit(5000, currency='usd')
+    print(f"Result: {result}")
+
+    print(f"New balance: {account1.get_current_balance()}")
+    print(f"Transactions: {account1.get_transactions_per_date(datetime.date.today())}")
 
 
 
