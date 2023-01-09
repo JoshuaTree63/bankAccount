@@ -1,29 +1,12 @@
 import datetime
-
-
-class Person:
-
-    def __init__(self, person_id: str, name: str, address: str, phone: str):
-
-        self._phone = phone
-        self._address = address
-        self._name = name
-        self._person_id = person_id
-
-
-class Transaction:
-
-    def __init__(self, transaction_type: str, amount: float, currency: float):
-
-        self._currency = currency
-        self._amount = amount
-        self._transaction_type = transaction_type
+from transaction import *
+from person import Person
 
 
 class BankAccount:
 
     def __init__(self, bank_name: str, branch: str, account_num: int, holders: set[Person]
-                 , usd_allowed: bool= False, credit_limit: float = 0):
+                 , usd_allowed: bool = False, credit_limit: float = 0,):
 
         self._credit_limit = credit_limit
         self._holder: set[Person] = holders
@@ -36,7 +19,6 @@ class BankAccount:
         self._usd_allowed: bool = usd_allowed
         self.nis_credit_limit: float = 0
 
-        self._transaction: dict[datetime.date: list[Transaction]] = {}
     def __str__(self):
         return f"Account { self._account_num}"
 
